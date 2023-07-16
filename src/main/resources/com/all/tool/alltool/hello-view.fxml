@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.Hyperlink?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.ToggleButton?>
+<?import javafx.scene.control.cell.PropertyValueFactory?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import org.kordamp.ikonli.javafx.FontIcon?>
+
+<TabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.all.tool.alltool.CompressController">
+  <tabs>
+    <Tab text="图片压缩">
+         <content>
+            <VBox prefHeight="200.0" prefWidth="100.0">
+               <children>
+                  <HBox alignment="CENTER_LEFT" prefHeight="60.0" prefWidth="600.0" style="-fx-background-color: #aaaaaa;">
+                     <children>
+                        <ToggleButton mnemonicParsing="false" prefHeight="30.0" prefWidth="69.0" text="默认">
+                           <font>
+                              <Font size="15.0" />
+                           </font>
+                        </ToggleButton>
+                        <ToggleButton mnemonicParsing="false" prefHeight="30.0" prefWidth="70.0" text="自定义">
+                           <font>
+                              <Font size="15.0" />
+                           </font>
+                        </ToggleButton>
+                     </children>
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin>
+                     <padding>
+                        <Insets left="30.0" />
+                     </padding>
+                  </HBox>
+                  <TableView fx:id="tableView" editable="true" prefHeight="200.0" prefWidth="200.0">
+                    <columns>
+                       <TableColumn text="全选">
+                          <cellValueFactory>
+                             <PropertyValueFactory property="selected" />
+                          </cellValueFactory>
+                           <graphic>
+                              <CheckBox mnemonicParsing="false" />
+                           </graphic>
+                       </TableColumn>
+                        <TableColumn prefWidth="95.0" text="文件名" />
+                        <TableColumn prefWidth="71.0" text="路径" />
+                        <TableColumn prefWidth="55.0" text="结果" />
+                        <TableColumn prefWidth="91.0" text="文件大小" />
+                        <TableColumn prefWidth="112.0" text="压缩后大小" />
+                        <TableColumn prefWidth="120.0" text="节省空间" />
+                        <TableColumn prefWidth="125.0" text="节省空间(%)" />
+                    </columns>
+                  </TableView>
+                  <HBox alignment="CENTER_LEFT" prefHeight="69.0" prefWidth="780.0">
+                     <children>
+                        <Button mnemonicParsing="false" onAction="#onAddFiles" text="添加" HBox.hgrow="ALWAYS">
+                           <graphic>
+                              <FontIcon iconColor="#616161" iconLiteral="antf-plus-square" iconSize="20" selectionFill="BLACK" />
+                           </graphic></Button>
+                        <Button mnemonicParsing="false" onAction="#onAddDirectory" text="添加文件夹">
+                           <graphic>
+                              <FontIcon iconColor="#616161" iconLiteral="antf-plus-square" iconSize="20" selectionFill="BLACK" />
+                           </graphic>
+                           <HBox.margin>
+                              <Insets left="20.0" />
+                           </HBox.margin>
+                        </Button>
+                        <Button alignment="CENTER_RIGHT" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#onRemoveAll" text="清除所有">
+                           <graphic>
+                              <FontIcon iconColor="#4a4a4a" iconLiteral="antf-close-circle" iconSize="20" text="" />
+                           </graphic>
+                           <HBox.margin>
+                              <Insets left="20.0" />
+                           </HBox.margin>
+                        </Button>
+                     </children>
+                     <padding>
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                     </padding>
+                  </HBox>
+                  <HBox alignment="CENTER_LEFT" prefHeight="60.0" prefWidth="600.0" style="-fx-background-color: #aaaaaa;">
+                     <children>
+                        <ToggleButton mnemonicParsing="false" prefHeight="30.0" prefWidth="129.0" text="覆盖原文件">
+                           <font>
+                              <Font size="15.0" />
+                           </font>
+                        </ToggleButton>
+                        <ToggleButton mnemonicParsing="false" prefHeight="30.0" prefWidth="70.0" text="自定义">
+                           <font>
+                              <Font size="15.0" />
+                           </font>
+                        </ToggleButton>
+                     </children>
+                     <padding>
+                        <Insets left="30.0" />
+                     </padding>
+                  </HBox>
+                  <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0">
+                     <children>
+                        <Button fx:id="beginCompress" mnemonicParsing="false" onAction="#onBeginCompress" text="开始压缩">
+                           <font>
+                              <Font size="26.0" />
+                           </font>
+                        </Button>
+                     </children>
+                     <padding>
+                        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+                     </padding>
+                  </HBox>
+                  <HBox alignment="CENTER_RIGHT" prefHeight="49.0" prefWidth="880.0">
+                     <children>
+                        <Hyperlink text="帮忙文档" visited="true" />
+                     </children>
+                     <opaqueInsets>
+                        <Insets />
+                     </opaqueInsets>
+                     <padding>
+                        <Insets right="20.0" />
+                     </padding>
+                  </HBox>
+               </children>
+               <padding>
+                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+               </padding>
+            </VBox>
+         </content>
+    </Tab>
+    <Tab text="JS代码混淆">
+      <content>
+        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+      </content>
+    </Tab>
+  </tabs>
+</TabPane>
