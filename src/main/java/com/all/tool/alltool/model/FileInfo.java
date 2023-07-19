@@ -1,5 +1,6 @@
 package com.all.tool.alltool.model;
 
+import com.all.tool.alltool.consts.ImageType;
 import lombok.Data;
 
 @Data
@@ -9,7 +10,7 @@ public class FileInfo {
     // 文件名
     private String name;
     // 扩展名
-    private String extension;
+    private ImageType imageType;
     // 文件大小
     private long size;
     // 显示的文件大小

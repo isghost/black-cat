@@ -1,10 +1,9 @@
-package com.all.tool.alltool;
+package com.all.tool.alltool.model;
 
+import com.all.tool.alltool.consts.ImageType;
 import com.all.tool.alltool.consts.ProcessStatus;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
 import lombok.Data;
 
 /**
@@ -29,8 +28,8 @@ public class ImageRecord {
     private String compressedSize; // 压缩后大小
     private String spaceSaved; // 节省空间
     private String spaceSavedPercent; // 节省空间百分比
-
-    ImageRecord(){
+    private ImageType imageType; // 图片类型
+    public ImageRecord(){
         this.selected = new SimpleBooleanProperty(false);
     }
 

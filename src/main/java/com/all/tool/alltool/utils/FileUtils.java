@@ -1,5 +1,6 @@
 package com.all.tool.alltool.utils;
 
+import com.all.tool.alltool.consts.ImageType;
 import com.all.tool.alltool.model.FileInfo;
 
 import java.io.File;
@@ -20,7 +21,7 @@ public class FileUtils {
         if (dotIndex > 0) {
             fileExtension = fileName.substring(dotIndex + 1);
         }
-        fileInfo.setExtension(fileExtension);
+        fileInfo.setImageType(ImageType.getImageType(fileExtension));
 
         fileInfo.setSize(file.length());
         fileInfo.setShowSize(formatFileSize(fileInfo.getSize()));

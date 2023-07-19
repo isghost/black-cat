@@ -1,7 +1,9 @@
 package com.all.tool.alltool;
 
+import com.all.tool.alltool.consts.ImageType;
 import com.all.tool.alltool.consts.ProcessStatus;
 import com.all.tool.alltool.model.FileInfo;
+import com.all.tool.alltool.model.ImageRecord;
 import com.all.tool.alltool.utils.FileUtils;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
@@ -102,8 +104,15 @@ public class CompressController implements Initializable {
                 record.setSelected(false);
                 try {
                     String filePath = record.getFilePath();
+                    ProcessBuilder pb = null;
                     // 创建一个ProcessBuilder对象
-                    ProcessBuilder pb = new ProcessBuilder("src/main/resources/cmd/pngquant.exe", "--quality=10-100", "--force", "--ext=.png", "--skip-if-larger", filePath);
+                    if (record.getImageType() == ImageType.PNG) {
+                        pb = new ProcessBuilder("src/main/resources/cmd/pngquant.exe", "--quality=10-100", "--force", "--ext=.png", "--skip-if-larger", filePath);
+                    } else if (record.getImageType() == ImageType.JPG || record.getImageType() == ImageType.JPEG) {
+                        pb = new ProcessBuilder("src/main/resources/cmd/jpegoptim.exe", "--max=50", filePath);
+                    } else {
+                        continue;
+                    }
 
                     // 启动一个新的进程，并在该进程中运行pngquant命令
                     Process process = null;
@@ -160,8 +169,7 @@ public class CompressController implements Initializable {
 
         // 添加文件类型过滤器，只允许选择jpg、png文件或文件夹
         fileChooser.getExtensionFilters().addAll(
-                new FileChooser.ExtensionFilter("图片文件", "*.jpg", "*.png"),
-                new FileChooser.ExtensionFilter("文件夹", "*")
+                new FileChooser.ExtensionFilter("图片文件", "*.jpg", "*.png", "*.jpeg")
         );
 
         // 允许多选
@@ -244,6 +252,7 @@ public class CompressController implements Initializable {
         record.setCompressedSize(null);
         record.setSpaceSaved(null);
         record.setSpaceSavedPercent(null);
+        record.setImageType(fileInfo.getImageType());
         record.selectedProperty().addListener(new ChangeListener<Boolean>() {
             @Override
             public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
