@@ -19,7 +19,7 @@ import lombok.Data;
  */
 @Data
 public class ImageRecord {
-    private boolean selected; // 是否选中
+    private BooleanProperty selected; // 是否选中
     private String fileName; // 文件名
     private String filePath; // 路径
     private Boolean result; // 结果
@@ -29,6 +29,10 @@ public class ImageRecord {
     private String compressedSize; // 压缩后大小
     private String spaceSaved; // 节省空间
     private String spaceSavedPercent; // 节省空间百分比
+
+    ImageRecord(){
+        this.selected = new SimpleBooleanProperty(false);
+    }
 
     public static ImageRecord createDefault() {
         ImageRecord record = new ImageRecord();
@@ -45,14 +49,22 @@ public class ImageRecord {
     }
 
     public BooleanProperty selectedProperty() {
-        return new SimpleBooleanProperty(selected);
+        return selected;
     }
 
-    public StringProperty showResultProperty() {
+    public void setSelected(boolean selected) {
+        this.selected.set(selected);
+    }
+
+    public boolean getSelected() {
+        return this.selected.get();
+    }
+
+    public String getShowResult() {
         if (result == null) {
             return null;
         }
-        return new SimpleStringProperty(result ? ProcessStatus.SUCCESS.getDesc() : ProcessStatus.FAIL.getDesc());
+        return result ? ProcessStatus.SUCCESS.getDesc() : ProcessStatus.FAIL.getDesc();
     }
 
 }

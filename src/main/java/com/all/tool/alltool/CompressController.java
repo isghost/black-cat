@@ -3,24 +3,24 @@ package com.all.tool.alltool;
 import com.all.tool.alltool.consts.ProcessStatus;
 import com.all.tool.alltool.model.FileInfo;
 import com.all.tool.alltool.utils.FileUtils;
-import javafx.beans.property.SimpleBooleanProperty;
+import javafx.application.Platform;
+import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.control.cell.TextFieldTableCell;
+import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 
-import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
@@ -50,6 +50,21 @@ public class CompressController implements Initializable {
     @FXML
     private Button clearButton;
 
+    @FXML
+    private HBox successAndFailedBox;
+
+    @FXML
+    private Label successNumLabel;
+
+    @FXML
+    private Label failedNumLabel;
+
+    @FXML
+    private Label imageNumLabel;
+
+    @FXML
+    private Label processStatusTip;
+
     private final List<String> fieldNameList = Arrays.asList(
             "selected",
             "fileName",
@@ -60,6 +75,13 @@ public class CompressController implements Initializable {
             "spaceSaved",
             "spaceSavedPercent");
 
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        initTableView();
+        this.beginCompress.setDisable(true);
+        this.successAndFailedBox.setVisible(false);
+    }
+
     @FXML
     public void onBeginCompress() {
         if (isCompressing) {
@@ -68,9 +90,13 @@ public class CompressController implements Initializable {
         isCompressing = true;
         executor.execute(() -> {
             this.tableView.setEditable(false);
+            this.processStatusTip.setVisible(true);
+            this.successAndFailedBox.setVisible(true);
             ObservableList<ImageRecord> itemList = tableView.getItems();
+            int successNum = 0;
+            int failedNum = 0;
             for (ImageRecord record : itemList) {
-                if (!record.isSelected()) {
+                if (!record.getSelected()) {
                     continue;
                 }
                 record.setSelected(false);
@@ -87,21 +113,34 @@ public class CompressController implements Initializable {
                     System.out.printf("exit code: %d\n", exitCode);
                     record.setResult(exitCode == 0);
                     if (record.getResult()) {
+                        successNum++;
                         FileInfo fileInfo = FileUtils.getFileInfo(filePath);
                         record.setCompressedSize(FileUtils.formatFileSize(fileInfo.getSize()));
                         record.setSpaceSaved(FileUtils.formatFileSize(record.getFileSize() - fileInfo.getSize()));
                         record.setSpaceSavedPercent(formatPercent(record.getFileSize(), fileInfo.getSize()));
+                    } else {
+                        failedNum++;
                     }
+                    updateStatusLabel(successNum, failedNum);
                 } catch (IOException | InterruptedException e) {
                     record.setResult(false);
                 }
                 tableView.refresh();
             }
             this.tableView.setEditable(true);
+            this.processStatusTip.setVisible(false);
             isCompressing = false;
         });
 
 
+    }
+
+    public void updateStatusLabel(int successNum, int failedNum) {
+        Platform.runLater(() -> {
+            this.successNumLabel.setText(String.valueOf(successNum));
+            this.failedNumLabel.setText(String.valueOf(failedNum));
+            this.processStatusTip.setText("处理中" + ".".repeat((successNum + failedNum) % 4));
+        });
     }
 
     public String formatPercent(long beingSize, long afterSize) {
@@ -140,11 +179,11 @@ public class CompressController implements Initializable {
     }
 
     @FXML
-    public void onAddDirectory(){
+    public void onAddDirectory() {
         DirectoryChooser directoryChooser = new DirectoryChooser();
         File selectedDirectory = directoryChooser.showDialog(new Stage());
         if (selectedDirectory == null) {
-            return ;
+            return;
         }
         String directoryPath = selectedDirectory.getAbsolutePath();
         File directory = new File(directoryPath);
@@ -205,17 +244,34 @@ public class CompressController implements Initializable {
         record.setCompressedSize(null);
         record.setSpaceSaved(null);
         record.setSpaceSavedPercent(null);
-        System.out.println(record);
+        record.selectedProperty().addListener(new ChangeListener<Boolean>() {
+            @Override
+            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+                updateCompressButtonStatus();
+                updateImageNumLabel();
+            }
+        });
         tableView.getItems().add(record);
     }
 
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
+    public void updateCompressButtonStatus() {
+        boolean allUnselected = true;
+        ObservableList<ImageRecord> itemList = this.tableView.getItems();
+        for (ImageRecord imageRecord : itemList) {
+            if (imageRecord.getSelected()) {
+                allUnselected = false;
+                break;
+            }
+        }
+        this.beginCompress.setDisable(allUnselected);
+    }
+
+    public void initTableView() {
         ObservableList<TableColumn<ImageRecord, ?>> columns = tableView.getColumns();
-        TableColumn<ImageRecord, Boolean> firstCheckColumn = (TableColumn<ImageRecord, Boolean>)columns.get(0);
+        TableColumn<ImageRecord, Boolean> firstCheckColumn = (TableColumn<ImageRecord, Boolean>) columns.get(0);
         firstCheckColumn.setCellValueFactory(new PropertyValueFactory<>(fieldNameList.get(0)));
         firstCheckColumn.setCellFactory(tc -> new CheckBoxTableCell<>());
-        TableColumn<ImageRecord, String> imageRecordTableColumn = (TableColumn<ImageRecord, String>)columns.get(3);
+        TableColumn<ImageRecord, String> imageRecordTableColumn = (TableColumn<ImageRecord, String>) columns.get(3);
         imageRecordTableColumn.setCellFactory(new Callback<>() {
 
             @Override
@@ -242,6 +298,21 @@ public class CompressController implements Initializable {
         }
 
         this.tableView.setPlaceholder(new Label("请点击添加图片按钮添加图片，或者拖入图片到此处，支持png、jpg格式"));
+        this.tableView.getItems().addListener((ListChangeListener<ImageRecord>) change -> {
+            updateCompressButtonStatus();
+            updateImageNumLabel();
+            ;
+        });
+    }
+
+    private void updateImageNumLabel() {
+        ObservableList<ImageRecord> items = this.tableView.getItems();
+        int selectedCount;
+        int totalCount = items.size();
+        selectedCount = (int) items.stream().filter(ImageRecord::getSelected).count();
+        Platform.runLater(() -> {
+            this.imageNumLabel.setText(String.format("共%d张图片，已选%d张", totalCount, selectedCount));
+        });
     }
 
     @FXML
@@ -259,5 +330,17 @@ public class CompressController implements Initializable {
     @FXML
     public void onTableViewClicked() {
         System.out.println("onTableViewClicked");
+    }
+
+    @FXML
+    public void selectAll(ActionEvent event) {
+        Object source = event.getSource();
+        if (source instanceof CheckBox checkBox) {
+            boolean selected = checkBox.isSelected();
+            ObservableList<ImageRecord> items = this.tableView.getItems();
+            for (ImageRecord item : items) {
+                item.setSelected(selected);
+            }
+        }
     }
 }
