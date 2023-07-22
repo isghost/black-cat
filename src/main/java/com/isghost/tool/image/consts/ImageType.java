@@ -1,4 +1,4 @@
-package com.all.tool.alltool.consts;
+package com.isghost.tool.image.consts;
 
 public enum ImageType {
     JPG("jpg"),

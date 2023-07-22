@@ -1,7 +1,7 @@
-package com.all.tool.alltool.utils;
+package com.isghost.tool.image.utils;
 
-import com.all.tool.alltool.consts.ImageType;
-import com.all.tool.alltool.model.FileInfo;
+import com.isghost.tool.image.consts.ImageType;
+import com.isghost.tool.image.model.FileInfo;
 
 import java.io.File;
 import java.text.DecimalFormat;

@@ -17,13 +17,13 @@
 <?import javafx.scene.text.Font?>
 <?import org.kordamp.ikonli.javafx.FontIcon?>
 
-<TabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.all.tool.alltool.CompressController">
+<TabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.isghost.tool.image.CompressController">
   <tabs>
     <Tab text="图片压缩">
          <content>
             <VBox prefHeight="200.0" prefWidth="100.0">
                <children>
-                  <HBox alignment="CENTER_LEFT" prefHeight="60.0" prefWidth="600.0" style="-fx-background-color: #aaaaaa;">
+                  <HBox alignment="CENTER_LEFT" prefHeight="60.0" prefWidth="600.0" style="-fx-background-color: #aaaaaa;" visible="false">
                      <children>
                         <ToggleButton mnemonicParsing="false" prefHeight="30.0" prefWidth="69.0" text="默认">
                            <font>
@@ -118,7 +118,7 @@
                         <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                      </padding>
                   </HBox>
-                  <HBox alignment="CENTER_LEFT" prefHeight="60.0" prefWidth="600.0" style="-fx-background-color: #aaaaaa;">
+                  <HBox alignment="CENTER_LEFT" prefHeight="60.0" prefWidth="600.0" style="-fx-background-color: #aaaaaa;" visible="false">
                      <children>
                         <ToggleButton mnemonicParsing="false" prefHeight="30.0" prefWidth="129.0" text="覆盖原文件">
                            <font>
@@ -165,7 +165,7 @@
             </VBox>
          </content>
     </Tab>
-    <Tab text="JS代码混淆">
+    <Tab disable="true" text="图片移除背景">
       <content>
         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
       </content>

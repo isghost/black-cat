@@ -12,6 +12,9 @@ module com.all.tool.alltool {
     requires lombok;
 //    requires eu.hansolo.tilesfx;
 
-    opens com.all.tool.alltool to javafx.fxml;
-    exports com.all.tool.alltool;
+    opens com.isghost.tool.image to javafx.fxml;
+    opens com.isghost.tool.image.utils;
+    opens com.isghost.tool.image.consts;
+    opens com.isghost.tool.image.model;
+    exports com.isghost.tool.image;
 }

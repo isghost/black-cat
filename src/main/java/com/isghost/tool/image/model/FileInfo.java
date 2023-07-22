@@ -1,6 +1,6 @@
-package com.all.tool.alltool.model;
+package com.isghost.tool.image.model;
 
-import com.all.tool.alltool.consts.ImageType;
+import com.isghost.tool.image.consts.ImageType;
 import lombok.Data;
 
 @Data

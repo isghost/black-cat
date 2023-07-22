@@ -1,10 +1,10 @@
-package com.all.tool.alltool;
+package com.isghost.tool.image;
 
-import com.all.tool.alltool.consts.ImageType;
-import com.all.tool.alltool.consts.ProcessStatus;
-import com.all.tool.alltool.model.FileInfo;
-import com.all.tool.alltool.model.ImageRecord;
-import com.all.tool.alltool.utils.FileUtils;
+import com.isghost.tool.image.consts.ImageType;
+import com.isghost.tool.image.consts.ProcessStatus;
+import com.isghost.tool.image.model.FileInfo;
+import com.isghost.tool.image.model.ImageRecord;
+import com.isghost.tool.image.utils.FileUtils;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;

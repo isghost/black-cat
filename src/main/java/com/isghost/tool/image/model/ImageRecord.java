@@ -1,7 +1,7 @@
-package com.all.tool.alltool.model;
+package com.isghost.tool.image.model;
 
-import com.all.tool.alltool.consts.ImageType;
-import com.all.tool.alltool.consts.ProcessStatus;
+import com.isghost.tool.image.consts.ImageType;
+import com.isghost.tool.image.consts.ProcessStatus;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import lombok.Data;
