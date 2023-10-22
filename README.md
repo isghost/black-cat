@@ -6,9 +6,9 @@
 3. Maven
 4. SceneBuilder
 # 安装方法
-1. 下载安装包[]
+1. [下载安装包](https://github.com/isghost/black-cat/releases/tag/v0.0.1) app.zip
 2. 解压安装包
-3. 运行
+3. 双击`app\bin\app.bat`运行
 # 使用方法
 ## 方法一
 1. 点击添加图片按钮，选择图片，支持多选
